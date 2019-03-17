@@ -13,11 +13,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class SimpleHttpServer {
 
-    AtomicInteger counter;
-    HttpServer server;
+    private HttpServer server;
 
     public SimpleHttpServer(Executor exec, InetSocketAddress addr, int backlog) throws IOException {
-        counter = new AtomicInteger();
+        AtomicInteger counter = new AtomicInteger();
+
         server = HttpServer.create(addr, backlog);
         server.setExecutor(exec);
         server.createContext("/get", new GetHandler(counter));
@@ -35,7 +35,7 @@ public class SimpleHttpServer {
 
         AtomicInteger counter;
 
-        public GetHandler(AtomicInteger counter) {
+        private GetHandler(AtomicInteger counter) {
             this.counter = counter;
         }
 
