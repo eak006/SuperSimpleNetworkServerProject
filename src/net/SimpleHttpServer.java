@@ -18,7 +18,7 @@ public class SimpleHttpServer {
     private HttpServer server;
 
     public SimpleHttpServer() throws IOException {
-        this(null, new InetSocketAddress(8080), 0);
+        this(null, new InetSocketAddress(8081), 0);
     }
 
     public SimpleHttpServer(int port) throws IOException {
@@ -69,10 +69,10 @@ public class SimpleHttpServer {
                 // Increment counter
                 int c = counter.incrementAndGet();
 
-                // Respond with "OK", counter in payload
+                // Respond with "Counter", counter in payload
                 OutputStream os = t.getResponseBody();
 
-                String response = "OK, " + String.valueOf(c);
+                String response = "Counter = " + String.valueOf(c);
                 t.sendResponseHeaders(200, response.length());
 
                 // Write payload
