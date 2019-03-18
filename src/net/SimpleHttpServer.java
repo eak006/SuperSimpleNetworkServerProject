@@ -1,21 +1,17 @@
 package net;
 
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
-import sun.nio.cs.US_ASCII;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.InetSocketAddress;
-import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class SimpleHttpServer {
 
     private HttpServer server;
+
+    private boolean running = false;
 
     public SimpleHttpServer() throws IOException {
         this(null, new InetSocketAddress(8081), 0);
@@ -29,45 +25,17 @@ public class SimpleHttpServer {
         server.createContext("/get", new GetHandler(counter));
     }
 
+    public boolean isRunning() {
+        return running;
+    }
+
     public void start() {
         server.start();
+        running = true;
     }
 
     public void stop(int delay) {
         server.stop(delay);
-    }
-
-    static class GetHandler implements HttpHandler {
-
-        AtomicInteger counter;
-
-        private GetHandler(AtomicInteger counter) {
-            this.counter = counter;
-        }
-
-        @Override
-        public void handle(HttpExchange t) throws IOException {
-
-            // Only accept GET requests
-            if (t.getRequestMethod().equalsIgnoreCase("GET")) {
-                // Increment counter
-                int c = counter.incrementAndGet();
-
-                // Respond with "Counter", counter in payload
-                OutputStream os = t.getResponseBody();
-
-                String response = "Counter = " + String.valueOf(c);
-                t.sendResponseHeaders(200, response.length());
-
-                // Write payload
-                os.write(response.getBytes(StandardCharsets.US_ASCII));
-
-                // Close streams
-                os.close();
-            } else {
-                // Client error:
-                t.sendResponseHeaders(405, 0);
-            }
-        }
+        running = false;
     }
 }
