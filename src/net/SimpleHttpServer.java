@@ -21,22 +21,6 @@ public class SimpleHttpServer {
         this(null, new InetSocketAddress(8081), 0);
     }
 
-    public SimpleHttpServer(int port) throws IOException {
-        this(null, new InetSocketAddress(port), 0);
-    }
-
-    public SimpleHttpServer(int port, int backlog) throws IOException {
-        this(null, new InetSocketAddress(port), backlog);
-    }
-
-    public SimpleHttpServer(Executor exec, int port) throws IOException {
-        this(exec, new InetSocketAddress(port), 0);
-    }
-
-    public SimpleHttpServer(Executor exec, int port, int backlog) throws IOException {
-        this(exec, new InetSocketAddress(port), backlog);
-    }
-
     public SimpleHttpServer(Executor exec, InetSocketAddress addr, int backlog) throws IOException {
         AtomicInteger counter = new AtomicInteger();
 
@@ -79,10 +63,9 @@ public class SimpleHttpServer {
                 os.write(response.getBytes(StandardCharsets.US_ASCII));
 
                 // Close streams
-                os.flush();
                 os.close();
             } else {
-                // Respond with "Method Not Allowed" client error
+                // Client error:
                 t.sendResponseHeaders(405, 0);
             }
         }
