@@ -3,12 +3,13 @@ package net;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
-import sun.java2d.pipe.SpanShapeRenderer;
+import sun.nio.cs.US_ASCII;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -69,17 +70,16 @@ public class SimpleHttpServer {
                 int c = counter.incrementAndGet();
 
                 // Respond with "OK", counter in payload
-                t.sendResponseHeaders(200, 4);
                 OutputStream os = t.getResponseBody();
 
-                // Convert int to bytes
-                ByteBuffer bb = ByteBuffer.allocate(4);
-                bb.putInt(c);
+                String response = "OK, " + String.valueOf(c);
+                t.sendResponseHeaders(200, response.length());
 
                 // Write payload
-                os.write(bb.array());
+                os.write(response.getBytes(StandardCharsets.US_ASCII));
 
                 // Close streams
+                os.flush();
                 os.close();
             } else {
                 // Respond with "Method Not Allowed" client error
