@@ -8,7 +8,7 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.atomic.AtomicInteger;
 
-class GetHandler implements HttpHandler {
+public class GetHandler implements HttpHandler {
 
     AtomicInteger counter;
 
