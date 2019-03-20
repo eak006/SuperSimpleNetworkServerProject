@@ -8,11 +8,13 @@
     <artifactId>SuperSimpleNetworkServerProject</artifactId>
     <version>1.0-SNAPSHOT</version>
     <properties>
+        <maven.test.skip>false</maven.test.skip>
         <myTestSourceDirectory>
                  ${project.basedir}/src/tests/
         </myTestSourceDirectory>
     </properties>
     <build>
+        <testSourceDirectory>${myTestSourceDirectory}</testSourceDirectory>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
