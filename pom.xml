@@ -10,7 +10,7 @@
     <properties>
         <maven.test.skip>false</maven.test.skip>
         <myTestSourceDirectory>
-                 ${project.basedir}/src/tests/
+                 ./src/tests/
         </myTestSourceDirectory>
     </properties>
     <build>
