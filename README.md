@@ -1,2 +1,2 @@
 # simple-http
-Java Http server responding to GET requests with an incremented request counter
+Java Http server responding to GET requests with an incremented request counter.
