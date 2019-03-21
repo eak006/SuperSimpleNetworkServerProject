@@ -13,7 +13,6 @@ pipeline {
             steps {
                 echo '----BUILDING----'
                 sh 'mvn -B -DskipTests clean package'
-                sh 'docker build . -t simpleserver:1'
             }
         }
         stage('Test') {
@@ -34,5 +33,8 @@ pipeline {
                 
             }
         }
+    }
+    node {
+        sh 'docker build . -t simpleserver:1'
     }
 }
