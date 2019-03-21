@@ -3,4 +3,4 @@ COPY . $PWD
 WORKDIR $PWD/src
 RUN javac ./net/*.java
 RUN javac Main.java
-CMD ["java", "Main.class"]
+CMD ["java", "Main"]
