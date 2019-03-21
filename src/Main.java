@@ -8,6 +8,7 @@ public class Main {
         try {
             SimpleHttpServer shs = new SimpleHttpServer();
             shs.start();
+            System.out.println("testing -Erik");
         } catch (IOException ex){
             ex.printStackTrace();
         }
