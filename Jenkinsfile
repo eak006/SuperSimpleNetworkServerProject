@@ -1,6 +1,9 @@
 pipeline {
     agent {
-        sh 'docker build . -t simplerserver:1'
+        docker {
+            image 'maven:3-alpine'
+            args '-v $HOME/.m2:/root/.m2'
+        }
     }
     options {
         skipStagesAfterUnstable()
@@ -10,6 +13,7 @@ pipeline {
             steps {
                 echo '----BUILDING----'
                 sh 'mvn -B -DskipTests clean package'
+                sh 'docker build . -t simpleserver:1'
             }
         }
         stage('Test') {
