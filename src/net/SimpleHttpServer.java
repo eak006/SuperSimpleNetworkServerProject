@@ -14,7 +14,7 @@ public class SimpleHttpServer {
     private boolean running = false;
 
     public SimpleHttpServer() throws IOException {
-        this(null, new InetSocketAddress("127.0.0.1", 8081), 0);
+        this(null, new InetSocketAddress(8081), 0);
     }
 
     public SimpleHttpServer(Executor exec, InetSocketAddress addr, int backlog) throws IOException {
