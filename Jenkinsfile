@@ -27,11 +27,14 @@ pipeline {
                 }
             }
         }
-        stage('Deliver') { 
+        stage('Deliver') {
             steps {
                 echo '----DELIVERING----'
-                
+
             }
         }
     }
+}
+node {
+    sh 'docker build . -t simpleserver:1'
 }
