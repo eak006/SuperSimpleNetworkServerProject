@@ -57,6 +57,6 @@ public class GetHandlerTest {
 
         handler.handle(mockExchange);
 
-        assertEquals(os.toString(), "Counter = " + String.valueOf(counter.get()));
+        assertEquals(os.toString(), "Counter != " + String.valueOf(counter.get()));
     }
 }
