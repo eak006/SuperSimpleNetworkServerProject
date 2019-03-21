@@ -1,6 +1,6 @@
 FROM java:8
-COPY . /var/net/SimpleHttpServer
-WORKDIR /var/net/SimpleHttpServer
-RUN javac ./src/net/*.java
-RUN javac src/Main.java
+COPY . $PWD
+WORKDIR $PWD/src
+RUN javac $PWD/src/net/*.java
+RUN javac $PWD/src/Main.java
 CMD ["java", "Main"]
