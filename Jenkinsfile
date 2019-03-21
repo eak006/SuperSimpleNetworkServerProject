@@ -1,6 +1,3 @@
-pipeline {
-
-    node {
+   node {
         sh 'docker info'
     }
-}
