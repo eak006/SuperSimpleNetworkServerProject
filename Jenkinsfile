@@ -30,6 +30,10 @@ pipeline {
         stage('Deliver') {
             steps {
                 echo '----DELIVERING----'
+                script{
+                    def customImage = docker.build("simpleserver:1")
+                    customImage.withRun('-u root --rm -d -p 8081:8081 -p 50001:50001 -v /var/run/docker.sock:/var/run/docker.sock')
+                }
             }
         }
     }
