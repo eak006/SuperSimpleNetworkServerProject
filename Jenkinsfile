@@ -3,6 +3,10 @@ pipeline {
     options {
         skipStagesAfterUnstable()
     }
+    environment{
+        def dockerHome = tool 'myDocker'
+        env.PATH = "${dockerHome}/bin:${env.PATH}"
+    }
     stages {
         stage('Test'){
             agent {
@@ -12,13 +16,6 @@ pipeline {
                 }
             }
             stages {
-                stage('Initialize'){
-                    steps{
-                        echo '----INITIALIZING DOCKER----'
-                        def dockerHome = tool 'myDocker'
-                        env.PATH = "${dockerHome}/bin:${env.PATH}"
-                    }
-                }
                 stage('Build') {
                     steps {
                         echo '----BUILDING----'
