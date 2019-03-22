@@ -33,11 +33,6 @@ pipeline {
 
             }
         }
-        stage ('Deploy') {
-            steps {
-                echo '----DEPLOYING----'
-            }
-        }
     }
 }
 node {
