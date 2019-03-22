@@ -53,7 +53,3 @@ pipeline {
         }
     }
 }
-//node {
-//    sh 'docker build . -t simpleserver:1'
-//    sh 'docker run -u root --rm -d -p 8081:8081 -p 50001:50001 -v /var/run/docker.sock:/var/run/docker.sock simpleserver:1'
-//}
