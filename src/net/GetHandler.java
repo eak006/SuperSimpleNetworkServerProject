@@ -44,7 +44,7 @@ public class GetHandler implements HttpHandler {
                 }
                 responseCode = 200;
             } catch (FileNotFoundException e) {
-                response = "File not found";
+                response = "<h1>404 Error</h1> <p>File not found</p>";
                 responseCode = 404;
             }
 
