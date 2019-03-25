@@ -42,7 +42,7 @@ pipeline {
                 sh 'docker build . -t simpleserver:1'
                 //sh 'docker rm $(docker stop [$(docker ps -a -q --filter ancestor=[$(docker images -f "dangling=true" -q)])])'
                 //sh 'docker rmi $(docker images -f "dangling=true" -q)'
-                sh 'docker image prune'
+                sh 'docker image prune && y'
                 sh 'docker run -u root --rm -d -p 8081:8081 -p 50001:50001 -v /var/run/docker.sock:/var/run/docker.sock simpleserver:1'
             }
         }
