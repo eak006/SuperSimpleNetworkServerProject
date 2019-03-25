@@ -1,11 +1,12 @@
 package net;
 
+import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class GetHandler implements HttpHandler {
@@ -21,6 +22,18 @@ public class GetHandler implements HttpHandler {
 
         // Only accept GET requests
         if (t.getRequestMethod().equalsIgnoreCase("GET")) {
+
+            //pull the headers
+            Headers h = t.getRequestHeaders();
+
+            //get the filename from the headers
+            List<String> l = h.get("filename");
+            String filename = l.get(0);
+
+            //start reading the file
+            BufferedReader br = new BufferedReader(new FileReader(new File(filename)));
+
+
             // Increment counter
             int c = counter.incrementAndGet();
 
