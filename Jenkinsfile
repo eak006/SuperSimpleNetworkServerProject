@@ -42,13 +42,17 @@ pipeline {
                 sh 'docker build . -t simpleserver:1'
                 
                 script {
-                    // Find containers using old image
-                    def containers = sh(returnStdout: true, script: 'docker ps -a -q --filter ancestor=simpleserver:1 --format="{{.ID}}"')
-                    echo "Removing containers: ${containers}"
-                    // Stop old containers
-                    def stopped = sh(returnStdout: true, script: "docker stop ${containers}")
-                    // Remove old containers
-                    sh(returnStdout: false, script: "docker rm ${stopped}")
+                    try {
+                        // Find containers using old image
+                        def containers = sh(returnStdout: true, script: 'docker ps -a -q --filter ancestor=simpleserver:1 --format="{{.ID}}"')
+                        echo "Removing containers: ${containers}"
+                        // Stop old containers
+                        def stopped = sh(returnStdout: true, script: "docker stop ${containers}")
+                        // Remove old containers
+                        sh(returnStdout: false, script: "docker rm ${stopped}")
+                    } catch (exc) {
+                        // Catch exception thrown when no containers found
+                    }
                 }
 
                 // Run new container
