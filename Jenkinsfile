@@ -51,7 +51,7 @@ pipeline {
                 
                 script {
                     containers = sh(returnStdout: true, script: 'docker ps -a -q --filter ancestor=simpleserver:1 --format="{{.ID}}"')
-                    stopped = sh(returnStdout: true, script: 'docker stop $containers')
+                    stopped = sh(returnStdout: true, script: 'docker stop ' + containers)
                 }
                 
                 sh 'docker rm ${stopped}'
