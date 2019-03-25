@@ -1,6 +1,3 @@
-def containers = ''
-def stopped = ''
-
 pipeline {
     agent any
     options {
@@ -41,6 +38,10 @@ pipeline {
             }
         }
         stage('Deploy') {
+            environment {
+                containers = ''
+                stopped = ''
+            }
             steps {            
                 sh 'docker build . -t simpleserver:1'
                 //sh 'docker rm $(docker stop [$(docker ps -a -q --filter ancestor=[$(docker images -f "dangling=true" -q)])])'
