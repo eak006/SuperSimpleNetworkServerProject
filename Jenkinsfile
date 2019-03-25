@@ -38,10 +38,6 @@ pipeline {
             }
         }
         stage('Deploy') {
-            environment {
-                containers = ''
-                stopped = ''
-            }
             steps {            
                 sh 'docker build . -t simpleserver:1'
                 //sh 'docker rm $(docker stop [$(docker ps -a -q --filter ancestor=[$(docker images -f "dangling=true" -q)])])'
@@ -52,12 +48,11 @@ pipeline {
                 
                 script {
                     try {
-                        containers = sh(returnStdout: true, script: 'docker ps -a -q --filter ancestor=simpleserver:1 --format="{{.ID}}"')
+                        def containers = sh(returnStdout: true, script: 'docker ps -a -q --filter ancestor=simpleserver:1 --format="{{.ID}}"')
                         echo "${containers}"
-                        stopped = sh(returnStdout: true, script: "docker stop ${containers}")
+                        def stopped = sh(returnStdout: true, script: "docker stop ${containers}")
                         sh(returnStdout: false, script: "docker rm ${stopped}")
                     } catch(exc) {
-                        echo 'Nothing to remove'
                     }    
                 }
                                 
