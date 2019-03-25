@@ -24,6 +24,8 @@ public class GetHandler implements HttpHandler {
             // Increment counter
             int c = counter.incrementAndGet();
 
+            System.out.println(t.getRequestHeaders().get("file"));
+
             // Respond with "Counter", counter in payload
             OutputStream os = t.getResponseBody();
 

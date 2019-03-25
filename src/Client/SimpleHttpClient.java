@@ -13,6 +13,9 @@ public class SimpleHttpClient {
     public SimpleHttpClient() throws IOException {
         url = new URL("http://0.0.0.0:8081/get");
         con = (HttpURLConnection) url.openConnection();
+
+        con.setRequestProperty("Content-Type", "application/json");
+        con.setRequestProperty("Accept", "application/json");
     }
 
 }
