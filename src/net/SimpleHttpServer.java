@@ -18,11 +18,11 @@ public class SimpleHttpServer {
     }
 
     public SimpleHttpServer(Executor exec, InetSocketAddress addr, int backlog) throws IOException {
-        AtomicInteger counter = new AtomicInteger();
+        //AtomicInteger counter = new AtomicInteger();
 
         server = HttpServer.create(addr, backlog);
         server.setExecutor(exec);
-        server.createContext("/get", new GetHandler(counter));
+        server.createContext("/get", new GetHandler());
     }
 
     public boolean isRunning() {

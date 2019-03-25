@@ -11,11 +11,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class GetHandler implements HttpHandler {
 
-    AtomicInteger counter;
-
-    public GetHandler(AtomicInteger counter) {
-        this.counter = counter;
-    }
 
     @Override
     public void handle(HttpExchange t) throws IOException {
@@ -26,24 +21,36 @@ public class GetHandler implements HttpHandler {
             //pull the headers
             Headers h = t.getRequestHeaders();
 
+            //debug line
+            //System.out.println(h.get("filename"));
+
             //get the filename from the headers
             List<String> l = h.get("filename");
             String filename = l.get(0);
 
-            //start reading the file
-            BufferedReader br = new BufferedReader(new FileReader(new File(filename)));
+            //Debug lines
+            //System.out.println("Filename");
+            //System.out.println(filename);
 
+            //instantiating the response
+            String response = "";
+            int responseCode = 500;
+            try {
+                // access the file that was requested
+                BufferedReader br = new BufferedReader(new FileReader(new File(filename)));
+                String cur;
+                while( (cur = br.readLine()) != null) {
+                    response += cur + "\n";
+                }
+                responseCode = 200;
+            } catch (FileNotFoundException e) {
+                response = "File not found";
+                responseCode = 404;
+            }
 
-            // Increment counter
-            int c = counter.incrementAndGet();
-
-            System.out.println(t.getRequestHeaders().get("file"));
-
-            // Respond with "Counter", counter in payload
             OutputStream os = t.getResponseBody();
 
-            String response = "Counter = " + String.valueOf(c);
-            t.sendResponseHeaders(200, response.length());
+            t.sendResponseHeaders(responseCode, response.length());
 
             // Write payload
             os.write(response.getBytes(StandardCharsets.US_ASCII));
