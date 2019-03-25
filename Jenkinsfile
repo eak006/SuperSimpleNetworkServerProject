@@ -30,15 +30,11 @@ pipeline {
                         }
                     }
                 }
-                stage('Deliver') {
-                    steps {
-                        echo '----DELIVERING----'
-                    }
-                }
             }
         }
         stage('Deploy') {
-            steps {            
+            steps {
+                echo '----DEPLOYING TO DOCKER----'
                 sh 'docker build . -t simpleserver:1'
                 
                 script {
