@@ -51,9 +51,10 @@ pipeline {
                 
                 script {
                     try {
-                    containers = sh(returnStdout: true, script: 'docker ps -a -q --filter ancestor=simpleserver:1 --format="{{.ID}}"')
-                    stopped = sh(returnStdout: true, script: 'docker stop ${containers}')
-                    sh(returnStdout: false, script: 'docker rm ${stopped}')
+                        containers = sh(returnStdout: true, script: 'docker ps -a -q --filter ancestor=simpleserver:1 --format="{{.ID}}"')
+                        echo 'containers ${containers}'
+                        stopped = sh(returnStdout: true, script: 'docker stop ${containers}')
+                        sh(returnStdout: false, script: 'docker rm ${stopped}')
                     } catch(exc) {
                         echo 'Nothing to remove'
                     }    
