@@ -1,6 +1,6 @@
 FROM java:8
 COPY . $PWD
-WORKDIR .
-RUN javac ./src/net/*.java
-RUN javac ./src/Main.java
+WORKDIR $PWD/src
+RUN javac ./net/*.java
+RUN javac Main.java
 CMD ["java", "Main"]
