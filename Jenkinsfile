@@ -45,8 +45,13 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh 'docker build . -t simpleserver:1'
-                sh 'docker rmi $(docker images -f "dangling=true" -q)'
+                try {
+                    sh 'docker rmi $(docker images -f "dangling=true" -q)'
+                } catch (Exception e) {
+                    //This will throw errors sometimes
+                }
                 sh 'docker run -u root --rm -d -p 8081:8081 -p 50001:50001 -v /var/run/docker.sock:/var/run/docker.sock simpleserver:1'
+
             }
         }
     }
