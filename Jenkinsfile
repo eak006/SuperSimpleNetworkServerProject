@@ -12,11 +12,6 @@ pipeline {
                 }
             }
             stages {
-                stage('Initialize'){
-                    steps{
-                        echo '----INITIALIZING DOCKER----'
-                    }
-                }
                 stage('Build') {
                     steps {
                         echo '----BUILDING----'
@@ -35,23 +30,29 @@ pipeline {
                         }
                     }
                 }
-                stage('Deliver') {
-                    steps {
-                        echo '----DELIVERING----'
-                    }
-                }
             }
         }
         stage('Deploy') {
             steps {
+                echo '----DEPLOYING TO DOCKER----'
                 sh 'docker build . -t simpleserver:1'
-                try {
-                    sh 'docker rmi $(docker images -f "dangling=true" -q)'
-                } catch (Exception e) {
-                    //This will throw errors sometimes
-                }
-                sh 'docker run -u root --rm -d -p 8081:8081 -p 50001:50001 -v /var/run/docker.sock:/var/run/docker.sock simpleserver:1'
 
+                script {
+                    try {
+                        // Find containers using old image
+                        def containers = sh(returnStdout: true, script: 'docker ps -a -q --filter ancestor=simpleserver:1 --format="{{.ID}}"')
+                        echo "Removing containers: ${containers}"
+                        // Stop old containers
+                        def stopped = sh(returnStdout: true, script: "docker stop ${containers}")
+                        // Remove old containers
+                        sh(returnStdout: false, script: "docker rm ${stopped}")
+                    } catch (exc) {
+                        // Catch exception thrown when no containers found
+                    }
+                }
+
+                // Run new container
+                sh 'docker run -u root --rm -d -p 8081:8081 -p 50001:50001 -v /var/run/docker.sock:/var/run/docker.sock simpleserver:1'
             }
         }
     }
