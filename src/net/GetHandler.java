@@ -36,7 +36,7 @@ public class GetHandler implements HttpHandler {
             int responseCode = 500;
             try {
                 // access the file that was requested
-                BufferedReader br = new BufferedReader(new FileReader(new File(filename)));
+                BufferedReader br = new BufferedReader(new FileReader(new File("./src" + filename)));
                 String cur;
                 while( (cur = br.readLine()) != null) {
                     response += cur + "\n";
