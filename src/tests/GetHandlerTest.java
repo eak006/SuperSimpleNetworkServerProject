@@ -48,7 +48,7 @@ public class GetHandlerTest {
         os = Mockito.spy(new ByteArrayOutputStream());
         header = new Headers();
         List<String> l = new ArrayList<String>();
-        l.add("test.txt");
+        l.add("./src/test.txt");
         header.put("filename", l);
 
         handler = new GetHandler();
